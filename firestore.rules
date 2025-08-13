@@ -1,0 +1,40 @@
+// firestore.rules
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthed() { return request.auth != null; }
+    function isOwner(uid) { return isAuthed() && request.auth.uid == uid; }
+    function isViewerOf(targetUid) {
+      return isAuthed()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'viewer'
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.targetUid == targetUid;
+    }
+
+    match /config/{docId} {
+      allow read: if isAuthed();
+      // Only let the PLAYER set/overwrite to their own uid
+      allow create, update: if isAuthed()
+        && request.resource.data.keys().hasOnly(['playerUid'])
+        && request.resource.data.playerUid == request.auth.uid
+        && (!existsAfter(/databases/$(database)/documents/config/$(docId)) ||
+            getAfter(/databases/$(database)/documents/config/$(docId)).data.playerUid == request.auth.uid);
+      allow delete: if false;
+    }
+
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isViewerOf(uid);
+      allow create, update: if isOwner(uid);
+      allow delete: if false;
+
+      match /tasks/{taskId} {
+        allow read: if isOwner(uid) || isViewerOf(uid);
+        allow create, update, delete: if isOwner(uid);
+      }
+      match /meta/{docId} {
+        allow read: if isOwner(uid) || isViewerOf(uid);
+        allow write: if isOwner(uid);
+      }
+    }
+  }
+}

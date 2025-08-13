@@ -1,0 +1,161 @@
+:root {
+  --bg: #0b0e14;
+  --panel: #121720;
+  --hud: #1b2230;
+  --text: #e8eef8;
+  --muted: #9badc6;
+  --accent: #ff9f1a;
+  --accent2: #ffd166;
+  --outline: #283246;
+}
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body { margin: 0; background: radial-gradient(1200px 600px at top right, #0f1624 0%, #0b0e14 40%, #0b0e14 100%); color: var(--text); font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+
+.app { max-width: 1200px; margin: 0 auto; padding: 20px; }
+.topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom: 14px; }
+.hud {
+  background: linear-gradient(180deg, var(--hud), #121826);
+  border: 1px solid var(--outline); border-radius: 12px; padding: 10px 14px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 8px 24px rgba(0,0,0,.35);
+}
+.logo { display:flex; gap:10px; align-items:center; font-weight:800; letter-spacing:.5px; }
+.logo span { color: var(--accent); }
+
+.board { display:grid; gap:14px; grid-template-columns: repeat(3, 1fr); }
+.column { background: var(--panel); border:1px solid var(--outline); border-radius:12px; padding:12px; min-height: 420px; }
+.col-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.badge { font-size:12px; padding:3px 8px; border-radius:999px; background:#1c2435; color: var(--muted); border:1px solid #24304a; }
+
+.task { background:#121826; border:1px solid #26314a; border-radius:12px; padding:12px; margin-bottom:10px; cursor: grab; }
+.task:active { cursor: grabbing; }
+
+.form { display:grid; gap:8px; background:#0f1422; padding:12px; border-radius:10px; border:1px solid var(--outline); margin-bottom:12px; }
+.input, .select { width:100%; padding:10px; border-radius:8px; border:1px solid #24304a; background:#0c1324; color:#e5e7eb; }
+.btn { background: linear-gradient(180deg, var(--accent), #ff8f00); color:#1b1f2a; border:none; padding:10px 14px; border-radius:10px; font-weight:800; cursor:pointer; }
+.btn.secondary { background:#1c2435; color:#cbd5e1; }
+
+.xpbar { height: 12px; width:100%; background:#1a2130; border-radius:999px; overflow:hidden; border:1px solid #24304a; }
+.xpfill { height:100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+
+.toast-wrap { position: fixed; top: 10px; right: 10px; display: grid; gap: 8px; z-index: 1000; }
+.toast { background:#0b1228; border:1px solid #27314f; padding: 12px 14px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,.35); }
+
+.garage { margin-top: 16px; padding: 12px; border:1px solid var(--outline); border-radius: 12px; background:#0e1322; }
+.kf { font-size:12px; color: var(--muted); }
+
+/* Access Gate */
+.gate { max-width: 520px; margin: 20vh auto 0; padding: 18px; border:1px solid var(--outline); border-radius:14px; background:#0d1324; }
+.gate h2 { margin: 0 0 6px 0; }
+.gate .cf { display:flex; gap:8px; align-items:center; }
+
+.modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.5); display:grid; place-items:center; z-index:999; }
+.modal { width:min(520px, 92vw); background:#0b1228; padding:18px; border-radius:12px; border:1px solid #2b3147; }
+
+.trash.hot {
+  outline: 2px solid var(--accent);
+  box-shadow: 0 0 0 2px rgba(255,159,26,.25), 0 8px 24px rgba(0,0,0,.45);
+  transform: translateY(-1px);
+}
+/* Wider modal for big media */
+.modal-wide {
+  width: min(620px, 94vw);
+}
+
+/* Square GIF container */
+.affirm-media {
+  position: relative;
+  margin-top: 0;
+  width: min(520px, 90vw);
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #91908f;
+}
+
+/* Background cover for GIF */
+.affirm-media-cover {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: opacity 180ms ease-in-out;
+}
+
+/* Overlay banner for text */
+.affirm-overlay {
+  position: absolute;
+  bottom: 0%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(12, 12, 12, 0.575);
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 1.6rem;
+  font-weight: 900;
+  text-align: center;
+  max-width: 85%;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(255,255,255,0.8),
+               0 0 20px rgba(107, 107, 107, 0.7);
+  letter-spacing: 1px;
+}
+
+/* Animation for "epic" feel */
+.affirm-overlay {
+  animation: pulseGlow 1.5s infinite ease-in-out;
+}
+
+
+.rank-badge { display:grid; gap:4px; min-width:160px }
+.rank-bar { height:6px; background:#1d2540; border-radius:6px; overflow:hidden }
+.rank-fill { height:100%; background:var(--accent); }
+.rank-next { font-size:11px; color:#9badc6 }
+.rank.bronze{ color:#cd7f32 } .rank.silver{ color:#c0c0c0 } .rank.gold{ color:#ffd700 }
+.rank.platinum{ color:#87d7ff } .rank.diamond{ color:#9af } .rank.crown{ color:#ffdf80 }
+.rank.ace{ color:#ffa07a } .rank.conqueror{ color:#ff7ab3 }
+
+.xp-wrap { display:grid; gap:6px; margin:10px 0; }
+.xp-head { display:flex; justify-content:space-between; align-items:center; }
+.xp-numbers { font-size:12px; color:#9badc6; }
+
+.xp-track {
+  height:10px; border-radius:10px; overflow:hidden;
+  background:#1d2540; border:1px solid #2b3147;
+}
+.xp-fill { height:100%; background:var(--accent); transition:width .25s ease; }
+
+/* Flavor by rank (optional) */
+.xp-fill.bronze { background:#cd7f32; }
+.xp-fill.silver { background:#c0c0c0; }
+.xp-fill.gold { background:#ffd700; }
+.xp-fill.platinum { background:#87d7ff; }
+.xp-fill.diamond { background:#9ab7ff; }
+.xp-fill.crown { background:#ffdf80; }
+.xp-fill.ace { background:#ffa07a; }
+.xp-fill.conqueror { background:#ff7ab3; }
+
+.xp-sub { font-size:12px; color:#9badc6; }
+.garage-image {
+  width: 100%;
+  height: 450px; /* Increase this for a taller image */
+  object-fit: cover; /* Ensures it fills while keeping ratio */
+  border-radius: 12px; /* Matches your UI style */
+}
+
+@media (min-width: 1024px) {
+  .garage-image {
+    height: 1200px; /* For bigger screens */
+  }
+}
+.garage-image-container {
+  aspect-ratio: 16 / 9; /* Keeps your image proportional */
+  max-height: 500px;
+  overflow: hidden;
+}
+.garage-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
